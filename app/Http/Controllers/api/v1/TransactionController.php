@@ -15,7 +15,12 @@ class TransactionController extends Controller
         $transactionsData = Transactions::where('user_id', $userId)
         ->get();
         foreach ($transactionsData as $transaction) {
-            $transaction->items = DB::table('transaksi_items')->where("transaksi_id", $transaction->id)->get();
+            $dataItems = DB::table('transaksi_items')->where("transaksi_id", $transaction->id)->get();
+            foreach ($dataItems as $item){
+                $itemDetail = DB::table("items")->where("id", $item->id_item)->first();
+                $item->item = $itemDetail;
+            }
+            $transaction->items = $dataItems;
         }
         return response()->json($transactionsData);
     }
