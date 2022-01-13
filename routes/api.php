@@ -14,6 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+//Route::middleware('authCheck')->get('/transaction', function (Request $request) {
+////    return $request->user();
+//    return response()->json(['message' => 'You are authenticated!'], 200);
+//});
+
+Route::get('/transaction', [\App\Http\Controllers\api\v1\TransactionController::class,'getAllTransactions'])->middleware('authCheck');
+
+
